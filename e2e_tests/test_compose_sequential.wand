@@ -1,0 +1,5 @@
+fun main() {
+    let id = fn x => x in
+    let add_one = fn x => add x 1 in
+    (id <> add_one) 5
+};

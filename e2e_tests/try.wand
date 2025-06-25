@@ -1,0 +1,31 @@
+
+data Contains b = MkContains ( exists a. a b )
+
+data Ic a = MkIc a
+
+data Icc a = MkIcc (Ic a)
+
+fun main(){
+
+    let i  = MkIc 2;
+    let ii = MkIcc i;
+
+    let c  = dbg <$>  MkContains i;
+    let cc = dbg <$> MkContains ii;
+    {
+        first : c,
+        second: cc
+    }
+
+}
+
+
+fun dbg(x){
+    let _ = ffi!<
+     function(s) {
+        console.log(JSON.stringify(s, null, 4));
+        return s;
+    }
+    >:Unit, x ;
+    x
+}

@@ -1,0 +1,11 @@
+// Test single element list with builtin constructors
+fun main() {
+    let single = 5 :: Nil in
+    match single with
+    | Nil -> 0
+    | x :: tail -> (
+        match tail with
+        | Nil -> x
+        | y :: rest -> 999
+    )
+};

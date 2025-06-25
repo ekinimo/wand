@@ -1,0 +1,9 @@
+fun log_number(x) { ffi!<console.log>, x };
+
+fun get_pi() { ffi!<Math.PI> };
+
+fun main() { 
+  let a = log_number 42 in
+  let b = get_pi in
+  log_number b
+};

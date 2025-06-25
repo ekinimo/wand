@@ -1,0 +1,21 @@
+// Test empty list edge cases
+fun main() -> Int {
+    let empty = Nil in
+    let almost_empty = 42 :: Nil in
+    
+    let result1 = match empty with
+    | Nil => 10
+    | _ => 20
+    in
+    
+    let result2 = match almost_empty with
+    | Nil => 30
+    | x :: tail -> (
+        match tail with
+        | Nil => x
+        | _ => 40
+    )
+    in
+    
+    add result1 result2
+};

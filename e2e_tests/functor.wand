@@ -1,0 +1,79 @@
+data Functor f = MkFunctor (forall a b. (a->b) -> f a -> f b)
+
+data Maybe a = Just a | None
+
+data Either b a = Left b | Right a
+
+
+fun map_either(f,self) {
+    match self with
+           | Right x -> Right (f x)
+           | Left  x -> Left x
+}
+
+fun map_maybe(f,self) {
+    match self with
+           | Just x -> Just (f x)
+           | None   -> None
+}
+
+fun map_list(f , self ){
+  match self with
+      | Nil => Nil
+      | first :: rest => let head = f first;
+                         let rest = map_list f rest;
+                         head :: rest
+}
+
+fun map_functions(f, self){
+    \x -> f (self x)
+}
+
+fun map(functor,f,self){
+    let spec = match functor with
+                | MkFunctor instance -> instance ;
+    spec f self
+}
+
+fun dbg(x){
+    let _ = ffi!<
+     function(s) {
+        console.log(JSON.stringify(s, null, 4));
+        return s;
+    }
+    >:Unit, x ;
+    x
+}
+
+fun fold_list(f,init,list){
+    match list with
+     | Nil -> init
+     | a::b -> let val = f init a;
+               fold_list f val b
+}
+
+fun main(){
+
+    // instances
+    let maybe_functor = MkFunctor map_maybe ;
+    let list_functor = MkFunctor map_list ;
+
+    //let fun_functor = MkFunctor map_functions ;
+    let either_functor = MkFunctor map_either ;
+
+
+    let option = Just 2;
+    let list   = 1 :: 2 :: 3 :: 4 :: Nil ;
+    let option_list   = map list_functor (\x-> Just x) list;
+
+
+    let r1 =  map maybe_functor add(2,_) option;
+    let r2 =  map list_functor add(2,_) list ;
+    //let r3 =  map fun_functor add(2,_) add(1,_);
+
+    let _ = dbg r1;
+    let _ = dbg r2;
+    //let _ = dbg (r3 5);
+    r2
+
+}

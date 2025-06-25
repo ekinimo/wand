@@ -1,0 +1,7 @@
+fun main() -> Int {
+    let a = add 10 5 in
+    let b = sub 20 8 in
+    let c = mul 4 3 in
+    let d = div 24 6 in
+    add (add a b) (add c d)
+};

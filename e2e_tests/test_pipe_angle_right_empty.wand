@@ -1,0 +1,2 @@
+// Test pipe angle with right function empty
+fun main() { 1 |sub>add<| 2 };

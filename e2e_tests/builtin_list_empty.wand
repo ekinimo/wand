@@ -1,0 +1,6 @@
+// Test empty list handling with builtin constructors
+fun main() {
+    match Nil with
+    | Nil -> 42
+    | x :: xs -> 0
+};

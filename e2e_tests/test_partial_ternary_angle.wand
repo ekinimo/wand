@@ -1,0 +1,3 @@
+fun ternary(x, y, z) { add (mul x y) z };
+
+fun main() { 1 <ternary(_, 2, _)> 3 };

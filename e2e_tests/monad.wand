@@ -1,0 +1,58 @@
+fun dbg(x){
+    let _ = ffi!<
+     function(s) {
+        console.log(JSON.stringify(s, null, 4));
+        return s;
+    }
+    >:Unit, x ;
+    x
+}
+
+
+data Monad m = MkMonad (forall a  . a   -> m a)
+                       (forall a b. m a -> (a -> m b) -> m b)
+
+data Maybe a = Just a
+             | Nothing
+
+//toFunctor (MkMonad pure bind) = MkFunctor (\ f x -> x >>= (pure . f))
+
+
+fun unit_maybe(x){
+  Just x
+}
+
+fun bind_maybe(self,f){
+    match self with
+          | Nothing -> Nothing
+          | Just x -> f x
+}
+
+fun id(x){x}
+
+fun pure(monad,x){
+    match monad with
+     | MkMonad p b => p x
+}
+
+fun bind(monad,x, y){
+    match monad with
+     | MkMonad p b => b x y
+}
+
+fun join(monad,x){
+    x <bind monad> id
+}
+
+fun main(){
+   // Instances
+   let maybe_monad = MkMonad unit_maybe bind_maybe;
+
+
+   let option = Just 2;
+   option
+
+
+}
+
+

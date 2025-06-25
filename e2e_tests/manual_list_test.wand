@@ -1,0 +1,8 @@
+data MyList a = MyNil | MyCons a (MyList a);
+
+fun main() {
+    let manual_list = MyCons 1 (MyCons 2 (MyCons 3 MyNil)) in
+    match manual_list with
+    | MyNil => 0
+    | MyCons x xs => x
+};

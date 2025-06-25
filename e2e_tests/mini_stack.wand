@@ -1,0 +1,52 @@
+
+data Maybe a = Some a | None
+
+data Stack a = MkStack (exists xs. {  self : xs,
+                                      push : a -> xs -> xs,
+                                      pop  : xs -> xs,
+                                      top  : xs -> Maybe a
+                                    }
+              )
+
+
+
+fun listPush(x, xs)  {
+    x :: xs
+}
+
+fun listPop(xs){
+    match xs with
+    | Nil -> Nil
+    | head :: rest -> rest
+}
+
+fun listTop(xs){
+    match xs with
+    | x :: rest -> Some x
+    | Nil -> None
+}
+
+
+
+fun makeListStack(xs)  {
+    MkStack {
+        self : xs,
+        push : listPush,
+        pop  : listPop,
+        top  : listTop
+    }
+}
+
+fun push(stack,val){
+    match stack with
+           MkStack s -> let p = s.push;
+                        let self = s.self;
+                        p val self
+}
+
+fun main(){
+    let list = 1 :: 2 :: 3 :: Nil ;
+    let stack = makeListStack list ;
+    push stack 3
+
+}

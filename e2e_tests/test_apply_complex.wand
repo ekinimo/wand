@@ -1,0 +1,6 @@
+fun double(x) { mul x 2 };
+fun add_one(x) { add x 1 };
+
+fun main() {
+    double <$> add_one <$> mul 3 4
+};

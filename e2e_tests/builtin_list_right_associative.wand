@@ -1,0 +1,9 @@
+// Test right associativity of :: operator
+fun main() {
+    let list1 = 1 :: 2 :: 3 :: Nil in
+    let list2 = 1 :: (2 :: (3 :: Nil)) in
+    // Both should be equivalent - just return first element of list1
+    match list1 with
+    | x :: _ -> x
+    | Nil -> 0
+};

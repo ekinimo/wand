@@ -1,0 +1,15 @@
+data Bool = True | False;
+
+fun even(n) {
+    match n with
+    | 0 -> True
+    | _ -> odd (sub n 1)
+};
+
+fun odd(n) {
+    match n with
+    | 0 -> False  
+    | _ -> even (sub n 1)
+};
+
+fun main() { even 4 };

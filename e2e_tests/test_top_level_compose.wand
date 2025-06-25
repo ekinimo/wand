@@ -1,0 +1,6 @@
+fun id(x: Int) -> Int { x };
+fun add_one(x: Int) -> Int { add x 1 };
+fun main() -> Int { 
+    let composed = id <> add_one in
+    composed 5
+};

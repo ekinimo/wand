@@ -1,0 +1,6 @@
+fun main() {
+    let id = fn x => x in
+    let add_one = fn x => add x 1 in
+    let composed = fn _compose_x => id (add_one _compose_x) in
+    composed 5
+};

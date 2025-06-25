@@ -1,0 +1,7 @@
+data Wrapper = Wrap (forall a. a);
+
+fun main() -> Int {
+    let wrapped = Wrap 123 in
+    match wrapped with
+    | Wrap value -> value
+};

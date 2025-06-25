@@ -1,0 +1,5 @@
+fun main() -> Int {
+    let twice = fn f => fn x => f (f x) in
+    let increment = fn y => add y 1 in
+    twice increment 5
+};

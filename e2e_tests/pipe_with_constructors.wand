@@ -1,0 +1,5 @@
+data Maybe a = Nothing | Just a;
+
+fun double(x) { add x x };
+
+fun main() { 42 >> double >> (fn x -> Just x) };

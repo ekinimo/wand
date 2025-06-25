@@ -1,0 +1,6 @@
+fun main() {
+    let x = 10 in
+    let y = 20 in
+    let partial_add = add(x, _) in
+    partial_add y
+};

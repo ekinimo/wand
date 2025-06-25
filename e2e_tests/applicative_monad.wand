@@ -1,0 +1,164 @@
+data Functor f = MkFunctor (forall a b. (a->b) -> f a -> f b)
+
+data App m  = MkApp  (exists f. Functor f)
+                     (forall a. a -> m a)
+                     (forall a b. m ( a -> b ) -> m a -> m b)
+
+data Monad m app = MkMonad (App app)
+                           (forall a b. m a -> (a -> m b) -> m b)
+
+
+data Maybe a = Just a | None
+
+
+data Either b a = Left b | Right a
+
+
+
+
+fun map(functor,f,self){
+   match functor with
+                | MkFunctor instance -> instance f self
+}
+
+fun pure(app,self){
+   match app with
+                | MkApp _ instance _ -> instance  self
+}
+
+fun apply(app,f,self){
+   match app with
+                | MkApp _ _ instance -> instance  f self
+}
+
+
+fun bind(app,f,self){
+   match app with
+                | MkMonad _ instance -> instance  f self
+}
+
+
+fun map_maybe(f,self) {
+    match self with
+           | Just x -> Just (f x)
+           | None   -> None
+}
+
+fun pure_maybe(self){
+    Just self
+}
+
+fun apply_maybe(f,self){
+    match f with
+           | Just func -> map_maybe func self
+           | None -> None
+}
+
+fun bind_maybe(self,f){
+    match self with
+          | None -> None
+          | Just x -> f x
+}
+
+// Concrete implementations for List
+fun map_list(f , self ){
+  match self with
+      | Nil => Nil
+      | first :: rest => let head = f first;
+                         let rest = map_list f rest;
+                         head :: rest
+}
+
+fun pure_list(self){
+    self :: Nil
+}
+
+fun apply_list(f,self){
+    match f with
+      | Nil => Nil
+      | func :: rest_funcs => let mapped = map_list func self;
+                              let rest_applied = apply_list rest_funcs self;
+                              append_list mapped rest_applied
+}
+
+fun append_list(list1, list2){
+    match list1 with
+      | Nil => list2
+      | head :: tail => head :: append_list tail list2
+}
+
+// Concrete implementations for Either
+fun map_either(f,self) {
+    match self with
+           | Right x -> Right (f x)
+           | Left  x -> Left x
+}
+
+fun pure_either(self){
+    Right self
+}
+
+fun apply_either(f,self){
+    match f with
+           | Right func -> map_either func self
+           | Left x -> Left x
+}
+
+fun dbg(x){
+    let _ = ffi!<
+     function(s) {
+        console.log(JSON.stringify(s, null, 4));
+        return s;
+    }
+    >:Unit, x ;
+    x
+}
+
+
+
+
+fun main() {
+    // Create instances
+    let maybe_functor = MkFunctor map_maybe;
+    let list_functor = MkFunctor map_list;
+    let either_functor = MkFunctor map_either;
+    
+    let maybe_app = MkApp maybe_functor pure_maybe apply_maybe;
+    let list_app = MkApp list_functor pure_list apply_list;
+    let either_app = MkApp either_functor pure_either apply_either;
+
+
+
+    let maybe_monad = MkMonad maybe_app bind_maybe;
+
+    //// Test pure operations
+    let pure_maybe_val = pure maybe_app 42;
+    let pure_list_val = pure list_app 42;
+    let pure_either_val = pure either_app 42;
+
+    let _ = dbg pure_maybe_val;
+    let _ = dbg pure_list_val;
+    let _ = dbg pure_either_val;
+
+    // Test apply operations
+    let add_func = pure maybe_app add(2,_);
+    let maybe_val = Just 3;
+    let applied_maybe = apply maybe_app add_func maybe_val;
+    let _ = dbg applied_maybe;
+
+    // Test list applicative
+    let list_funcs = pure list_app (add 1) ;
+    let list_vals = 10 :: 20 :: Nil;
+    let applied_list = apply list_app list_funcs list_vals;
+    let _ = dbg applied_list;
+
+    // Test monad bind
+    let maybe_bind_result = bind maybe_monad maybe_val (\x -> Just (x <mul> 2));
+    let _ = dbg maybe_bind_result;
+
+    // Test functor map
+    let mapped_maybe = map maybe_functor (add 10) maybe_val;
+    let _ = dbg mapped_maybe;
+
+    applied_maybe
+}

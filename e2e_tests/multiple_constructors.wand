@@ -1,0 +1,7 @@
+data Color = Red | Green | Blue;
+fun main() -> Int {
+    match Green with
+    | Red -> 1
+    | Green -> 2  
+    | Blue -> 3
+};

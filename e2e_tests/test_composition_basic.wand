@@ -1,0 +1,5 @@
+fun main() -> Int { 
+    let id = fn x => x in
+    let composed = id <> id in
+    composed 42
+};

@@ -1,0 +1,24 @@
+
+
+data Functor f = Mkfunctor (forall a b. (a->b) -> f a -> f b)
+
+data Option a = None | Some a
+
+fun option_map(f,self){
+    match self with
+          | None => None
+          | Some a => Some (f a)
+}
+
+fun map(functor,f,self){
+    match functor with
+          | Mkfunctor instance =>instance f self
+}
+
+fun main(){
+
+    let functor_instance = Mkfunctor option_map;
+    let d = Some 42;
+    map functor_instance (\z -> add z 1) d
+
+}

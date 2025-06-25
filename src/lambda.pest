@@ -1,0 +1,123 @@
+WHITESPACE = _{ (" " | "\t" | "\r" | "\n")+ }
+COMMENT    = _{ ("/*" ~ (!"*/" ~ ANY)* ~ "*/") | ("//" ~ (!"\n" ~ ANY)* ~ ("\n" | EOI)) }
+
+zero        = _{ "0" }
+nonZero     = _{ '1' .. '9' }
+digit       = _{ (zero | nonZero)* }
+natural     = @{ "-"? ~ (nonZero ~ digit?) | zero }
+string      = @{ "\"" ~ (!"\"" ~ ANY)* ~ "\"" }
+ffi_string  = @{ "<" ~ (!">" ~ ANY)* ~ ">" }
+name        = @{ !(("let" | "fn" | "in" | "match" | "with" | "fun" | "ffi") ~ !('a'..'z' | 'A'..'Z' | '0'..'9' | "_")) ~ ('a'..'z' | 'A'..'Z' | "_") ~ ('a'..'z' | 'A'..'Z' | '0'..'9' | "_")* }
+constructor = @{ ('A'..'Z') ~ ('a'..'z' | 'A'..'Z' | '0'..'9')* }
+
+expr                =  {
+  | apply_expr
+  | application
+  | ffi_expr
+  | pipe_expr
+  | compose_expr
+  | let_expr
+  | match_expr
+  | abstraction
+  | ternary_angle_expr
+  | pipe_angle_expr
+  | angle_apply_expr
+  | cons_expr
+  | projection
+  | atom
+}
+ternary_angle_expr  =  { term ~ "<" ~ optional_func ~ "|" ~ term ~ "|" ~ optional_func ~ ">" ~ expr }
+pipe_angle_expr     =  { term ~ "|" ~ optional_func ~ ">" ~ term ~ "<" ~ optional_func ~ "|" ~ expr }
+angle_apply_expr    =  { term ~ "<" ~ term ~ ">" ~ expr }
+pipe_expr           =  { term ~ ">>" ~ expr }
+compose_expr        =  { term ~ "<>" ~ expr }
+apply_expr          =  { term ~ "<$>" ~ expr }
+ffi_expr            =  { "ffi!" ~ ffi_string ~ (":" ~ type_expr)? ~ ("," ~ expr)? }
+let_expr            =  { "let" ~ name ~ "=" ~ expr ~ (";" | "in") ~ expr }
+match_expr          =  { "match" ~ expr ~ "with" ~ match_case+ ~ ","? }
+match_case          =  { "|"? ~ pattern ~ ("->" | "=>") ~ expr }
+cons_expr           =  { atom ~ "::" ~ expr }
+term                =  { application | projection | atom }
+optional_func       =  { expr? }
+pattern             =  {
+
+  | cons_pattern
+  | constructor_pattern
+  | record_pattern
+  | string_pattern
+  | int_pattern
+  | var_pattern
+  | wildcard_pattern
+}
+cons_pattern        =  { pattern_atom ~ "::" ~ pattern }
+constructor_pattern =  { constructor ~ pattern_arg* }
+pattern_arg         =  { "(" ~ pattern ~ ")" | pattern_atom }
+string_pattern      =  { string }
+int_pattern         =  { natural }
+var_pattern         =  { name }
+wildcard_pattern    =  { "_" }
+pattern_atom        =  { "(" ~ pattern ~ ")" | string_pattern | int_pattern | var_pattern | wildcard_pattern }
+record_pattern      =  { "{" ~ (record_pattern_field ~ ("," ~ record_pattern_field)*)? ~ ("," ~ spread)? ~ "}" }
+record_pattern_field=  { name ~ ":" ~ pattern }
+spread              =  { "..." ~ name? }
+abstraction         =  { ("fn" | "λ" | "\\") ~ name+ ~ ("->" | "=>") ~ expr }
+application         =  {
+
+  | call ~ arg+
+}
+call                = _{
+
+  | constructor
+  | name
+  | "(" ~ expr ~ ")"
+}
+arg                 = _{
+
+  | projection
+  | atom
+}
+projection          =  { atom ~ ("." ~ name)+ }
+record_literal      =  { "{" ~ (record_field ~ ("," ~ record_field)*)? ~ "}" }
+record_field        =  { name ~ ":" ~ expr }
+record_extension    =  { "{" ~ expr ~ "with" ~ record_field ~ ("," ~ record_field)* ~ "}" }
+partial_application =  { name ~ "(" ~ partial_args_with_underscore ~ ")" }
+partial_args_with_underscore = {
+    "_" ~ ("," ~ partial_arg)* |
+    expr ~ "," ~ "_" ~ ("," ~ partial_arg)* |
+    expr ~ ("," ~ expr)+ ~ "," ~ "_" ~ ("," ~ partial_arg)*
+}
+partial_arg         =  { "_" | expr }
+
+atom = {
+
+  | ffi_expr
+  | record_literal
+  | record_extension
+  | partial_application
+  | string
+  | natural
+  | constructor
+  | name
+  | "(" ~ expr ~ ")"
+}
+
+program         =  { SOI ~ (declaration ~ ";"?)* ~ expr? ~ EOI }
+declaration     =  { function_def | data_def }
+data_def        =  { "data" ~ constructor ~ type_param* ~ "=" ~ constructor_def ~ ("|" ~ constructor_def)* }
+function_def    =  { "fun" ~ name ~ "(" ~ param_list? ~ ")" ~ ("->" ~ type_expr)? ~ "{" ~ expr ~ "}" }
+param_list      =  { param ~ ("," ~ param)* }
+param           =  { name ~ (":" ~ type_expr)? }
+type_param      = @{ (!(( "fun" | "ffi" | "data") ~ !('a'..'z' | 'A'..'Z' | '0'..'9' | "_"))) ~  'a'..'z' ~ ('a'..'z' | 'A'..'Z' | '0'..'9')* }
+constructor_def =  { constructor ~ component_type* }
+component_type  =  { "(" ~ quantified_type ~ ")" | "(" ~ type_expr ~ ")" | simple_type }
+simple_type     =  { record_type | type_param | constructor ~ type_atom* }
+quantified_type =  {
+    ("∀" | "forall") ~ type_param+ ~ "." ~ ("∃" | "exists") ~ type_param+ ~ "." ~ type_expr
+  | ("∀" | "forall") ~ type_param+ ~ "." ~ type_expr
+  | ("∃" | "exists") ~ type_param+ ~ "." ~ type_expr
+  | type_expr
+}
+type_expr       =  { type_atom ~ ("->" ~ type_expr)? }
+type_atom       =  { record_type | constructor ~ type_atom* | type_param ~ type_atom* | "(" ~ type_expr ~ ")" }
+record_type     =  { "{" ~ (record_type_field ~ ("," ~ record_type_field)*)? ~ ("," ~ "..." ~ type_param)? ~ "}" }
+record_type_field = { name ~ ":" ~ type_expr }

@@ -1,0 +1,1 @@
+fun main() { ffi!<console.log("Hello from new FFI syntax!")> };

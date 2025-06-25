@@ -1,0 +1,6 @@
+fun main() -> Int { 
+    let inc = fn x => x <add> 1 in
+    let inc2 = fn x => x <add> 2 in
+    let composed = inc <> inc2 in
+    composed 5
+};

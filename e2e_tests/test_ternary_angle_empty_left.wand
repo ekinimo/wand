@@ -1,0 +1,2 @@
+// Test ternary angle with empty left function
+fun main() { 1 <|add|> 2 };

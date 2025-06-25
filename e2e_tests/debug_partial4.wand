@@ -1,0 +1,2 @@
+fun double(x, y) { add x y };
+fun main() { double(10, _) };

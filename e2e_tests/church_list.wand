@@ -1,0 +1,16 @@
+data List a = L (forall a b. (a -> b -> b) -> b -> b)
+fun fold(x) {
+	match x with
+	 | L f -> f 
+}
+
+//nil :: List a
+fun nil( x ) { L (\c n -> n) }
+//cons :: a -> List a -> List a
+fun cons (x, xs){
+  L (\c n -> c x (fold xs c n))
+}
+
+fun main(){
+	cons 2 (nil 1)
+}

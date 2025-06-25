@@ -1,0 +1,6 @@
+data Bool = True | False;
+fun main() -> Int { 
+    match True with
+    | True -> 1
+    | False -> 0
+};

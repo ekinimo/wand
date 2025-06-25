@@ -1,0 +1,11 @@
+data Maybe a = Nothing | Just a;
+data Pair a b = MkPair a b;
+
+fun main() -> Int {
+    let test_nested = Just (Just 42) in
+    match test_nested with
+    | Nothing -> 0
+    | Just inner -> ( match inner with
+      | Nothing -> 1 
+      | Just x -> x )
+};

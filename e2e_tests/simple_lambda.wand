@@ -1,0 +1,4 @@
+fun main() -> Int { 
+    let id = fn x => x in
+    id 42 
+};

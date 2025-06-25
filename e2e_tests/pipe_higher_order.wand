@@ -1,0 +1,4 @@
+fun double(x) { add x x };
+fun apply_twice(f) { fn x -> f (f x) };
+
+fun main() { 3 >> double >> apply_twice double };

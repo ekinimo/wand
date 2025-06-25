@@ -1,0 +1,3 @@
+fun compose(f, g) { fn x -> f (g x) };
+
+fun main() { (compose add(1, _) mul(2, _)) 5 };

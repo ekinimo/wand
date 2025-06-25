@@ -1,0 +1,8 @@
+// Test cons operator for list construction
+fun main() {
+    let constructed = 1 :: 2 :: 3 :: Nil in
+    
+    match constructed with
+    | Nil -> 0
+    | head :: tail -> head
+};

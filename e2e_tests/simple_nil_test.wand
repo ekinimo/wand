@@ -1,0 +1,6 @@
+data List a = Nil | Cons a (List a);
+fun main() {
+    match Nil with
+    | Nil -> 1
+    | Cons x xs -> 2
+};

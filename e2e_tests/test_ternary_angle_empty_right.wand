@@ -1,0 +1,2 @@
+// Test ternary angle with empty right function
+fun main() { 1 <mul 3|add|> 2 };

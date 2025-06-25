@@ -1,0 +1,4 @@
+fun main() -> Int {
+    let record = {x: 10, y: 20} in
+    record.x
+};

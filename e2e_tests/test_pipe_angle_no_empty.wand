@@ -1,0 +1,2 @@
+// Test pipe angle with no empty functions
+fun main() { 1 |sub>add<mul| 2 };

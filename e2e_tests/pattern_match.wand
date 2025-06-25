@@ -1,0 +1,6 @@
+data Maybe a = Nothing | Just a;
+fun main() -> Int {
+    match Just 42 with
+    | Nothing -> 0
+    | Just x -> x
+};

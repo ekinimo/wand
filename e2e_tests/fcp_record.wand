@@ -1,0 +1,7 @@
+data Person = MkPerson (forall a. {age: Int, data: a});
+
+fun main() -> Int {
+    let person = MkPerson {age: 25, data: 42} in
+    match person with
+    | MkPerson record -> record.age
+};

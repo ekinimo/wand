@@ -1,0 +1,11 @@
+// Test basic nested list patterns with builtin constructors
+fun main() {
+    let deep = 1 :: 2 :: 3 :: Nil in
+    match deep with
+    | a :: rest -> (
+        match rest with
+        | b :: more -> add a b
+        | Nil -> a
+    )
+    | Nil -> 0
+};

@@ -1,0 +1,9 @@
+fun log_number(x: Int) -> Int { ffi!<console.log>: Int -> Int, x };
+
+fun get_pi() -> Int { ffi!<Math.PI>: Int };
+
+fun main() -> Int { 
+  let a = log_number 42 in
+  let b = get_pi () in
+  log_number b
+};

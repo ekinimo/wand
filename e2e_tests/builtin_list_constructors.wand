@@ -1,0 +1,11 @@
+fun main() {
+    let list1 = 1 :: (2 :: (3 :: Nil)) in
+    let list2 = 4 :: list1 in
+    match list2 with
+    | head :: tail -> (
+        match tail with
+        | h2 :: t2 -> add head h2
+        | Nil -> head
+    )
+    | Nil -> 0
+};

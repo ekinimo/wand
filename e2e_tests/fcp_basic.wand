@@ -1,0 +1,7 @@
+data Box = Box (forall a. a);
+
+fun main() -> Int {
+    let int_box = Box 42 in
+    match int_box with
+    | Box x -> x
+};

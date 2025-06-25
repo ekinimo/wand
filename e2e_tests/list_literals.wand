@@ -1,0 +1,19 @@
+// Test basic list construction syntax
+fun main() -> Int {
+    let empty = Nil in
+    let single = 42 :: Nil in
+    let triple = 1 :: 2 :: 3 :: Nil in
+    
+    match triple with
+    | Nil => 0
+    | x :: tail -> (
+        match tail with
+        | Nil => x
+        | y :: rest -> (
+            match rest with
+            | Nil => add x y
+            | z :: Nil => add (add x y) z
+            | _ => 999
+        )
+    )
+};

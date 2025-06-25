@@ -1,0 +1,19 @@
+
+data Maybe a = None | Just a
+
+fun dbg(x){
+    ffi!<function(s) { console.log(JSON.stringify(s, null, 4)); return s; }>, x
+}
+
+fun main(){
+    let x = dbg 69;
+    let x = dbg <$> Just x;
+    let x = dbg <$> Just x;
+    let ret = match dbg x with
+      Just x =>
+        match dbg x with
+           None   => 0
+           Just x => x,
+      None   => 0;
+    dbg ( 1 :: 2 :: 3 :: 4 :: Nil )
+}

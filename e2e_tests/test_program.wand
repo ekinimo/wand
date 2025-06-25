@@ -1,0 +1,11 @@
+data List a = Nil | Cons a (List a);
+
+fun length(list: List Int) -> Int {
+    match list with
+    | Nil -> 0
+    | Cons x xs -> add 1 (length xs)
+};
+
+fun main() -> Int {
+    length (Cons 1 (Cons 2 (Cons 3 Nil)))
+};

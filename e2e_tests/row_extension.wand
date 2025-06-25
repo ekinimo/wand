@@ -1,0 +1,5 @@
+fun main() -> Int {
+    let a = { x:5 } in
+    let extended = { a with y: 10} in
+    add extended.x extended.y
+};

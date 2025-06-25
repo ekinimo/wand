@@ -1,0 +1,18 @@
+fun map(f , x ){
+  match x with
+     | Nil => Nil
+     | first :: rest => let head = f first;
+                        let rest = map f rest;
+                        head :: rest
+}
+
+fun dbg(x){
+    ffi!<function(s) { console.log(JSON.stringify(s, null, 4)); return s; }>, x
+}
+
+fun main(){
+     let ret = ( 1 :: 2 :: 3 :: 4 :: Nil )
+     >> map sub(1,_);
+     let _ = dbg ret;
+     sub 3 2
+}

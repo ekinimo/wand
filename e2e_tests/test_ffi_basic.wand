@@ -1,0 +1,3 @@
+fun test_ffi(x) { ffi!<function(n) { console.log('Hello from FFI! Number:', n); return n; }>, x };
+
+fun main() { test_ffi 42 };

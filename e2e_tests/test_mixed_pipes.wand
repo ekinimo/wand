@@ -1,0 +1,2 @@
+// Test mixing different pipe operations - should work but likely fails
+fun main() { 1 <add> 2 |mul>add<sub| 3 };

@@ -1,0 +1,36 @@
+data Maybe a = Just a | None
+
+data App m = MkApp (forall a . a -> m a  )
+                   (forall a b . m (a -> b) -> m a -> m b ) ;
+
+fun pure(app,self){
+   match app with
+                | MkApp instance _ -> instance  self
+}
+
+fun apply(app,f,self){
+   match app with
+                | MkApp _ instance -> instance  f self
+}
+
+fun pure_maybe(self){
+    Just self
+}
+
+fun map_maybe(f,self) {
+    match self with
+           | Just x -> Just (f x)
+           | None   -> None
+}
+
+
+fun apply_maybe(f,self){
+    match f with
+           | Just func -> map_maybe func self
+           | None -> None
+}
+
+fun main(){
+    let maybe_app = MkApp pure_maybe apply_maybe;
+  1
+}

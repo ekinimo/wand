@@ -1,0 +1,6 @@
+fun main() -> Int {
+    let a = { x : 25} in
+    let b = { x : 25 , y : 30} in
+    let f = fn x -> x.x in
+    add (f a)  (f b)
+};

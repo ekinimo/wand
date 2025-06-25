@@ -1,0 +1,16 @@
+// Test various list pattern matching cases
+fun main() {
+    let numbers = 10 :: 20 :: 30 :: Nil in
+    
+    match numbers with
+    | Nil -> 1
+    | x :: tail -> (
+        match tail with
+        | Nil -> add x 100
+        | y :: rest -> (
+            match rest with
+            | Nil -> add x y
+            | z :: _ -> add (add x y) z
+        )
+    )
+};

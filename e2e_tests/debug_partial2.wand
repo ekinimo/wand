@@ -1,0 +1,2 @@
+fun triple(x, y, z) { add x (add y z) };
+fun main() { triple(10, _, 5) };

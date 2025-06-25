@@ -1,0 +1,17 @@
+// Test cons operator (::) functionality
+fun main() -> Int {
+    let list1 = 1 :: 2 :: 3 :: Nil in
+    let list2 = 0 :: 1 :: 2 :: Nil in
+    
+    match list1 with
+    | x :: tail -> (
+        match tail with
+        | y :: rest -> (
+            match rest with
+            | z :: Nil -> add (add x y) z
+            | _ -> 0
+        )
+        | _ => 0
+    )
+    | _ => 0
+};

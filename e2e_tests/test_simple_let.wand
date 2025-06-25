@@ -1,0 +1,4 @@
+fun main() -> Int {
+    let x = 42 in
+    x
+};

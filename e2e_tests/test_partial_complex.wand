@@ -1,0 +1,7 @@
+fun foo(a, b, c, d) { add (add a b) (add c d) };
+
+fun main() {
+    let x = foo(_, 1, 2, _) in
+    let y = foo(2, _, _, 1) in
+    add (x 1 2) (y 3 4)
+};

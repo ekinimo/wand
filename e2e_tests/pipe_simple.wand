@@ -1,0 +1,5 @@
+fun double(x) { add x x };
+fun increment(x) { add x 1 };
+fun negate(x) { sub 0 x };
+
+fun main() { 5 >> double };

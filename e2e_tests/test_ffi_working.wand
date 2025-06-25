@@ -1,0 +1,9 @@
+fun test_ffi(x) { ffi!<function(n) { console.log('Hello from FFI! Number:', n); return n; }>, x };
+
+fun get_pi() { ffi!<Math.PI> };
+
+fun main() { 
+  let result = test_ffi 42 in
+  let pi = get_pi () in
+  test_ffi pi
+};

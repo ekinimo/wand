@@ -1,0 +1,8 @@
+fun test_string(s) {
+  match s with
+  | "hello" -> 1
+  | "world" -> 2
+  | _ -> 0
+};
+
+fun main() { test_string "hello" };

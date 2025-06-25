@@ -1,0 +1,2 @@
+// Test basic pipe angle syntax: |f?>g<h?|
+fun main() { 1 |add>mul<sub| 2 };

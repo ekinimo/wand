@@ -1,0 +1,10 @@
+// Test simple list construction that works
+fun main() -> Int {
+    let empty = Nil in
+    let single = 42 :: Nil in
+    let triple = 1 :: 2 :: 3 :: Nil in
+    
+    match empty with
+    | Nil => 42
+    | _ => 0
+};

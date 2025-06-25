@@ -1,0 +1,2 @@
+// Test mixing pipe angle with ternary angle
+fun main() { 1 |add>mul<sub| 2 <|div|> 1 };

@@ -1,0 +1,2 @@
+// Test let expressions in pipe operations  
+fun main() { 1 <let x = 5 in add x|mul|> 2 };

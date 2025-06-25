@@ -1,0 +1,12 @@
+
+data Maybe a = None | Some a
+
+fun main() -> Int {
+   let x = Some ( Some 2 ) ;
+   match x with
+      Some y =>
+        match y with
+           None   => 0
+           Some z => z,
+      None   => 0
+}

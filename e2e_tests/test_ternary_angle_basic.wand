@@ -1,0 +1,2 @@
+// Test basic ternary angle syntax: <|f|g>
+fun main() { 1 <|add|mul 3> 2 };

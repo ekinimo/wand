@@ -1,0 +1,20 @@
+data Functor f = MkFunctor (forall a b. (a->b) -> f a -> f b)
+
+
+fun map(functor,f,self){
+   match functor with
+                | MkFunctor instance -> instance f self
+
+}
+
+fun map2(functor,f,self){
+   let s = match functor with
+                | MkFunctor instance -> instance;
+   s f self
+
+}
+
+
+fun main(){
+    map
+}

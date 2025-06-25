@@ -1,0 +1,35 @@
+fun dbg(x){
+    let _ = ffi!<
+     function(s) {
+        console.log(JSON.stringify(s, null, 4));
+        return s;
+    }
+    >:Unit, x ;
+    x
+}
+
+
+data Functor f = MkFunctor (forall a b. (a->b) -> f a -> f b)
+
+data Either b a = Left b | Right a
+
+fun map_either(f,self) {
+    match self with
+           | Right x -> Right (f x)
+           | Left  x -> Left x
+}
+
+fun map(functor,f,self){
+    let spec = match functor with
+                | MkFunctor instance -> instance ;
+    spec f self
+}
+
+
+fun main(){
+
+    let either_functor = MkFunctor map_either ;
+    let a = Left 1 ;
+    (add 1) <map either_functor> a
+
+}

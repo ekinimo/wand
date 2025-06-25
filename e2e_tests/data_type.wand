@@ -1,0 +1,2 @@
+data Boolean = True | False;
+fun main() -> Boolean { True };

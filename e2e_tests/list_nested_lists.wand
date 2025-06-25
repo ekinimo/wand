@@ -1,0 +1,18 @@
+// Test nested list structures
+fun main() -> Int {
+    let list1 = 1 :: 2 :: Nil in
+    let list2 = 3 :: 4 :: Nil in
+    let nested = list1 :: list2 :: Nil in
+    
+    match nested with
+    | Nil => 0
+    | first :: rest => (
+        match first with
+        | Nil => 100
+        | x :: tail -> (
+            match tail with
+            | y :: Nil => add x y
+            | _ => 200
+        )
+    )
+};

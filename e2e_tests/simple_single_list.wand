@@ -1,0 +1,5 @@
+fun main() -> Int { 
+    match 42 :: Nil with 
+    | x :: Nil => x 
+    | _ => 0
+};

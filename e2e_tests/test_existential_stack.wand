@@ -1,0 +1,60 @@
+// Test for existential types - Stack abstract datatype
+
+// Stack with existential quantification - hides internal representation
+data Stack a = Stack (exists xs. xs ) 
+                     (exists xs. a -> xs -> xs)  
+                     (exists xs. xs -> xs)  
+                     (exists xs. xs -> Maybe a) 
+                     (exists xs. xs -> Bool)
+
+
+data Bool = True | False 
+
+data Maybe a = Some a | None  
+// List operations
+fun listPush(x, xs)  {
+    x :: xs
+}
+
+fun listPop(xs){
+    match xs with
+    | Nil -> Nil
+    | head :: rest -> rest
+}
+
+fun listTop(xs){ 
+    match xs with
+    | x :: rest -> Some x
+    | Nil -> None
+}
+
+fun listEmpty(xs)  {
+    match xs with
+    | Nil -> True
+    | _ -> False
+}
+
+// Create a stack backed by a list
+fun makeListStack(xs)  {
+    Stack xs listPush listPop listTop listEmpty
+}
+
+// Push operation on stack
+fun pushStack(x, stack)  {
+    match stack with
+    | Stack self pushFn popFn topFn emptyFn -> 
+        Stack ( pushFn x self)  pushFn  popFn  topFn emptyFn
+}
+
+// Top operation on stack
+fun topStack(stack)  {
+    match stack with
+    | Stack self _ _ topFn _ -> topFn self
+}
+
+fun main() {
+    let list = 1 :: 2 :: 3 :: 4 :: Nil ;
+    let stack1 = makeListStack list;
+    let pushed = pushStack 42 stack1 ;
+    topStack pushed
+}

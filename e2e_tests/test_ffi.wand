@@ -1,0 +1,11 @@
+fun greet(name) { ffi!<console.log>, name };
+
+fun add_numbers(x, y) { 
+  let sum = add x y in
+  ffi!<function(s) { console.log('Sum is:', s); return s; }>, sum
+};
+
+fun main() { 
+  let greeting = greet "Hello from Wand!" in
+  add_numbers 10 20
+};

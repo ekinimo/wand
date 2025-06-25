@@ -1,0 +1,8 @@
+data Maybe a = Nothing | Just a;
+
+fun main() -> Int {
+    let inner = Just 42 in
+    match inner with
+    | Nothing -> 1 
+    | Just x -> x
+};

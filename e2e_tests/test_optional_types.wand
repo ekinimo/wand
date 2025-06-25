@@ -1,0 +1,5 @@
+fun double(x) { add x x };
+
+fun quadruple(x) { double (double x) };
+
+fun main() { quadruple 5 };

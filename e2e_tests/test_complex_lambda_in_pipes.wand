@@ -1,0 +1,2 @@
+// Test complex expressions in pipe operations
+fun main() { 1 <fn x => add x 1|add|fn y => mul y 2> 3 };

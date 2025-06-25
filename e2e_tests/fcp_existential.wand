@@ -1,0 +1,7 @@
+data Container = MkContainer (exists a. a);
+
+fun main() -> Int {
+    let container = MkContainer 100 in
+    match container with
+    | MkContainer value -> 1
+};

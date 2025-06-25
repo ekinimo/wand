@@ -1,0 +1,3 @@
+// Test pipe angle with left function empty
+fun main() { 1 |mul>add<div| 2 };
+// add (mul 1 2) 2
